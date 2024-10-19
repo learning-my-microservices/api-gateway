@@ -1,0 +1,119 @@
+openapi: 3.0.0
+
+info:
+  title: API GATEWAY
+  description: Services that it provides from the application endpoints.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+
+paths:
+  /accounts:
+    get:
+      summary: Retrieve a list of accounts
+      responses:
+        200:
+          description: A list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+    post:
+      summary: Create a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        201:
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+
+  /accounts/{accountId}:
+    get:
+      summary: Retrieve an account by ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account to retrieve
+          schema:
+            type: string
+      responses:
+        200:
+          description: An account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        404:
+          description: Account not found
+
+    put:
+      summary: Update an account by ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        200:
+          description: Account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        404:
+          description: Account not found
+
+    delete:
+      summary: Delete an account by ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account to delete
+          schema:
+            type: string
+      responses:
+        204:
+          description: Account deleted successfully
+        404:
+          description: Account not found
+
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '123'
+        name:
+          type: string
+          example: 'John Doe'
+        personalDoc:
+          type: string
+          example: '123456789'
+        email:
+          type: string
+          example: 'johndoe@example.com'
+      required:
+        - name
+        - personalDoc
